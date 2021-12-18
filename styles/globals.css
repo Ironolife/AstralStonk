@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #__next {
+    @apply h-full;
+  }
+
+  #__next {
+    @apply flex flex-col;
+  }
+}
+
+.MuiButtonBase-root {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.SnackbarItem-message {
+  max-width: 512px;
+}
