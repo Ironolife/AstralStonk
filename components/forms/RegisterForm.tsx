@@ -86,7 +86,13 @@ const RegisterForm: VFC = () => {
           name='username'
           control={control}
           render={({ field }) => (
-            <TextField label='Username' required fullWidth {...field} />
+            <TextField
+              label='Username'
+              required
+              autoComplete='username'
+              fullWidth
+              {...field}
+            />
           )}
         />
       </div>

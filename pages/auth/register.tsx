@@ -1,6 +1,7 @@
-import Typography from '@mui/material/Typography';
 import RegisterForm from '@astralstonk/components/forms/RegisterForm';
 import { useAuthStore } from '@astralstonk/stores/auth.store';
+import Typography from '@mui/material/Typography';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, VFC } from 'react';
 
@@ -16,12 +17,17 @@ const Register: VFC = () => {
   if (!isReady || (isReady && accessToken)) return null;
 
   return (
-    <div className='max-w-lg mx-auto h-full flex flex-col pb-[10vh] justify-center space-y-8'>
-      <Typography variant='h5' component='h1'>
-        Pick a name!
-      </Typography>
-      <RegisterForm />
-    </div>
+    <>
+      <Head>
+        <title>Register</title>
+      </Head>
+      <div className='max-w-lg mx-auto h-full flex flex-col pb-[10vh] justify-center space-y-8'>
+        <Typography variant='h5' component='h1'>
+          Pick a name!
+        </Typography>
+        <RegisterForm />
+      </div>
+    </>
   );
 };
 

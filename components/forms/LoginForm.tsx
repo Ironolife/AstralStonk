@@ -61,7 +61,14 @@ const LoginForm: VFC = () => {
           name='accessToken'
           control={control}
           render={({ field }) => (
-            <TextField label='Access Token' required fullWidth {...field} />
+            <TextField
+              label='Access Token'
+              required
+              type='password'
+              autoComplete='current-password'
+              fullWidth
+              {...field}
+            />
           )}
         />
       </div>

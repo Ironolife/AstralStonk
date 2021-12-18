@@ -34,6 +34,7 @@ const SidebarButton: VFC<SidebarButtonProps> = ({
       component={href ? NextLinkComposed : 'button'}
       to={href ? { pathname: href } : undefined}
       onClick={onClick}
+      focusRipple
       aria-label={label.toLowerCase()}
     >
       {icon}

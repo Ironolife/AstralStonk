@@ -30,6 +30,7 @@ const HeaderDrawerButton: VFC<HeaderDrawerButtonProps> = ({
       component={href ? NextLinkComposed : 'button'}
       to={href ? { pathname: href } : undefined}
       onClick={onClick}
+      focusRipple
     >
       {icon}
       <div className='ml-4 font-medium'>{label}</div>
