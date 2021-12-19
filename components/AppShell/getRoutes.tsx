@@ -1,10 +1,10 @@
 import HomeIcon from '@mui/icons-material/Home';
-import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import AnimatedLeaderboardIcon from '@astralstonk/components/icons/AnimatedLeaderboard';
 import PublicIcon from '@mui/icons-material/Public';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 
-export const routes = [
+export const getRoutes = (pathName: string) => [
   {
     label: 'Home',
     icon: <HomeIcon />,
@@ -27,7 +27,7 @@ export const routes = [
   },
   {
     label: 'Leaderboard',
-    icon: <LeaderboardIcon />,
+    icon: <AnimatedLeaderboardIcon animate={pathName === '/leaderboard'} />,
     href: '/leaderboard',
   },
 ];

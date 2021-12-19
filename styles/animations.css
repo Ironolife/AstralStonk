@@ -1,0 +1,56 @@
+@keyframes leaderboard-icon-path-1 {
+  0% {
+    stroke-dashoffset: 12;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 12;
+  }
+}
+
+@keyframes leaderboard-icon-path-2 {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: 12;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes leaderboard-icon-path-3 {
+  0% {
+    stroke-dashoffset: 6;
+  }
+  25% {
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dashoffset: 6;
+  }
+  75% {
+    stroke-dashoffset: 12;
+  }
+  100% {
+    stroke-dashoffset: 6;
+  }
+}
+
+@keyframes settings-icon {
+  0% {
+    transform: rotate(0);
+  }
+  33% {
+    transform: rotate(45deg);
+  }
+  66% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
