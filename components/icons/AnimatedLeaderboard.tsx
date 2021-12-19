@@ -1,46 +1,28 @@
 import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
-import clsx from 'clsx';
 import React, { VFC } from 'react';
 
-type AnimatedLeaderboardProps = SvgIconProps & {
-  animate?: boolean;
-};
+type AnimatedLeaderboardProps = SvgIconProps;
 
-const AnimatedLeaderboard: VFC<AnimatedLeaderboardProps> = ({
-  animate,
-  ...rest
-}) => {
+const AnimatedLeaderboard: VFC<AnimatedLeaderboardProps> = (props) => {
   return (
-    <SvgIcon {...rest}>
-      <path
-        className={clsx(
-          animate && 'animate-[0.7s_linear_0s_leaderboard-icon-path-1]'
-        )}
-        stroke='currentColor'
-        strokeWidth={5.5}
-        strokeDasharray={18}
-        strokeDashoffset={12}
-        d='M4.75,21L4.75,3'
+    <SvgIcon className='rotate-180' {...props}>
+      <rect
+        className='transition-all duration-300 w-[5.5px] h-[6px] group-hover:h-[12px]'
+        x={2}
+        y={3}
+        fill='currentColor'
       />
-      <path
-        className={clsx(
-          animate && 'animate-[0.7s_linear_0.1s_leaderboard-icon-path-2]'
-        )}
-        stroke='currentColor'
-        strokeWidth={5.5}
-        strokeDasharray={18}
-        strokeDashoffset={0}
-        d='M12,21L12,3'
+      <rect
+        className='transition-all duration-300 w-[5.5px] h-[18px] group-hover:h-[6px]'
+        x={9.25}
+        y={3}
+        fill='currentColor'
       />
-      <path
-        className={clsx(
-          animate && 'animate-[0.7s_linear_0.2s_leaderboard-icon-path-3]'
-        )}
-        stroke='currentColor'
-        strokeWidth={5.5}
-        strokeDasharray={18}
-        strokeDashoffset={6}
-        d='M19.25,21L19.25,3'
+      <rect
+        className='transition-all duration-300 w-[5.5px] h-[12px] group-hover:h-[18px]'
+        x={16.5}
+        y={3}
+        fill='currentColor'
       />
     </SvgIcon>
   );

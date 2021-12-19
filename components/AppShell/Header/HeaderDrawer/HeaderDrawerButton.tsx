@@ -22,7 +22,7 @@ const HeaderDrawerButton: VFC<HeaderDrawerButtonProps> = ({
   return (
     <ButtonBase
       className={clsx(
-        'p-4 flex justify-start items-center transition-colors rounded-[6px]',
+        'p-4 flex justify-start items-center transition-colors rounded-[6px] group',
         href && router.pathname === href
           ? 'bg-purple-500/60'
           : 'hover:bg-white/30'

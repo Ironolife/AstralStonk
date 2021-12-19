@@ -1,6 +1,6 @@
-import { getRoutes } from '@astralstonk/components/AppShell/getRoutes';
 import { HeaderContext } from '@astralstonk/components/AppShell/Header/Header';
 import HeaderDrawerButton from '@astralstonk/components/AppShell/Header/HeaderDrawer/HeaderDrawerButton';
+import { routes } from '@astralstonk/components/AppShell/routes';
 import AnimatedSettingsIcon from '@astralstonk/components/icons/AnimatedSettings';
 import CloseIcon from '@mui/icons-material/Close';
 import LoginIcon from '@mui/icons-material/Login';
@@ -8,15 +8,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import { useRouter } from 'next/router';
-import React, { useContext, useMemo, VFC } from 'react';
+import React, { useContext, VFC } from 'react';
 
 const HeaderDrawer: VFC = () => {
   const { authAction, handleLogout, isDrawerOpen, toggleIsDrawerOpen } =
     useContext(HeaderContext);
-
-  const router = useRouter();
-  const routes = useMemo(() => getRoutes(router.pathname), [router.pathname]);
 
   return (
     <Drawer open={isDrawerOpen} anchor='right' onClose={toggleIsDrawerOpen}>
@@ -42,9 +38,7 @@ const HeaderDrawer: VFC = () => {
         <div className='flex flex-col space-y-2'>
           <HeaderDrawerButton
             label='Settings'
-            icon={
-              <AnimatedSettingsIcon animate={router.pathname === '/settings'} />
-            }
+            icon={<AnimatedSettingsIcon />}
             href='/settings'
             onClick={toggleIsDrawerOpen}
           />

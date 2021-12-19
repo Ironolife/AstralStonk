@@ -25,7 +25,7 @@ const SidebarButton: VFC<SidebarButtonProps> = ({
   return (
     <ButtonBase
       className={clsx(
-        'p-4 flex justify-start items-center transition-all overflow-hidden',
+        'p-4 flex justify-start items-center transition-all overflow-hidden group',
         isExpanded ? 'rounded-[6px]' : 'rounded-[28px]',
         href && router.pathname === href
           ? 'bg-purple-500/60'

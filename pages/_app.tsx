@@ -4,7 +4,6 @@ import DefinitionsProvider from '@astralstonk/providers/DefinitionsProvider';
 import MuiThemeProvider from '@astralstonk/providers/MuiThemeProvider';
 import QueryClientProvider from '@astralstonk/providers/QueryClientProvider';
 import SnackbarProvider from '@astralstonk/providers/SnackbarProvider';
-import '@astralstonk/styles/animations.css';
 import '@astralstonk/styles/globals.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import type { AppProps } from 'next/app';

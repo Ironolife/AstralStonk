@@ -1,11 +1,10 @@
-import { getRoutes } from '@astralstonk/components/AppShell/getRoutes';
+import { routes } from '@astralstonk/components/AppShell/routes';
 import SidebarButton from '@astralstonk/components/AppShell/Sidebar/SidebarButton';
 import AnimatedSettingsIcon from '@astralstonk/components/icons/AnimatedSettings';
 import { useToggle } from '@astralstonk/hooks/useToggle';
 import StartIcon from '@mui/icons-material/Start';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
-import React, { createContext, useMemo, VFC } from 'react';
+import React, { createContext, VFC } from 'react';
 
 export const SidebarContext = createContext({
   isExpanded: false,
@@ -14,9 +13,6 @@ export const SidebarContext = createContext({
 
 const Sidebar: VFC = () => {
   const [isExpanded, toggleIsExpanded] = useToggle(false);
-
-  const router = useRouter();
-  const routes = useMemo(() => getRoutes(router.pathname), [router.pathname]);
 
   return (
     <SidebarContext.Provider value={{ isExpanded, toggleIsExpanded }}>
@@ -34,9 +30,7 @@ const Sidebar: VFC = () => {
         <div className='flex flex-col space-y-2'>
           <SidebarButton
             label='Settings'
-            icon={
-              <AnimatedSettingsIcon animate={router.pathname === '/settings'} />
-            }
+            icon={<AnimatedSettingsIcon />}
             href='/settings'
           />
           <SidebarButton
