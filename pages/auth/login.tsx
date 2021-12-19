@@ -11,7 +11,7 @@ const Login: VFC = () => {
   const { isReady, accessToken } = useAuthStore(({ auth }) => auth);
 
   useEffect(() => {
-    if (isReady && accessToken) router.replace('/');
+    if (isReady && accessToken) router.replace('/ships');
   }, [isReady]);
 
   if (!isReady || (isReady && accessToken)) return null;

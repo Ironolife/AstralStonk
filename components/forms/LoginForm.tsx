@@ -47,7 +47,7 @@ const LoginForm: VFC = () => {
 
         if (!isDefinitionsLoaded) updateDefinitions();
 
-        router.replace('/');
+        router.replace('/ships');
       },
     });
   };

@@ -72,7 +72,7 @@ const RegisterForm: VFC = () => {
 
         if (!isDefinitionsLoaded) updateDefinitions();
 
-        router.replace('/');
+        router.replace('/loans');
       },
     });
   };
