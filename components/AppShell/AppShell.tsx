@@ -13,7 +13,9 @@ const AppShell: FC = ({ children }) => {
         <Divider className='hidden md:block' orientation='vertical' />
         <div className='relative flex-grow'>
           <div className='absolute inset-0 flex flex-col'>
-            <main className='flex-grow p-4 overflow-y-auto'>{children}</main>
+            <main className='relative flex-grow overflow-y-auto'>
+              {children}
+            </main>
             <Divider />
             <Footer />
           </div>

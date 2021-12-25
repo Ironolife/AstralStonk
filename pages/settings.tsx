@@ -9,7 +9,7 @@ const Settings: VFC = () => {
       <Head>
         <title>Settings</title>
       </Head>
-      <div className='max-w-2xl mx-auto py-4 space-y-16'>
+      <div className='max-w-2xl mx-auto py-8 px-4 space-y-16'>
         <Typography variant='h4' component='h1'>
           Settings
         </Typography>

@@ -12,7 +12,7 @@ export const routes = [
   {
     label: 'Systems',
     icon: <AnimatedPublicIcon />,
-    href: '/systems',
+    href: '/systems/OE',
   },
   {
     label: 'Loans',

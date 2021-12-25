@@ -23,3 +23,18 @@
 .SnackbarItem-message {
   max-width: 512px;
 }
+
+@layer utilities {
+  .clippath-icon-on-active {
+    clip-path: polygon(100% -100%, 100% 100%, -100% 100%);
+  }
+  .clippath-icon-on-inactive {
+    clip-path: polygon(100% 100%, 100% 100%, 100% 100%);
+  }
+  .clippath-icon-off-active {
+    clip-path: polygon(0% 200%, 0% 0%, 200% 0%);
+  }
+  .clippath-icon-off-inactive {
+    clip-path: polygon(0% 0%, 0% 0%, 0% 0%);
+  }
+}

@@ -9,6 +9,7 @@ export const systemLocationSchema = z
     y: z.number(),
     allowsConstruction: z.boolean(),
     traits: z.array(z.string()),
+    messages: z.array(z.string()).optional(),
   })
   .strict();
 
