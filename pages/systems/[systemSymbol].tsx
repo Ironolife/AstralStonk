@@ -1,7 +1,6 @@
 import { getSystemLocations } from '@astralstonk/api/systems/systems';
 import QueryWrapper from '@astralstonk/components/common/QueryWrapper';
-import _SystemScene from '@astralstonk/components/systems/_SystemScene';
-import SystemScene from '@astralstonk/components/systems/SystemScene';
+import SystemView from '@astralstonk/components/systems/SystemView/SystemView';
 import WithAuth from '@astralstonk/utils/withAuth';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -21,7 +20,7 @@ const System: VFC = () => {
         <title>Systems</title>
       </Head>
       <QueryWrapper data={data} status={status}>
-        {(data) => <_SystemScene {...data} />}
+        {(data) => <SystemView {...data} />}
       </QueryWrapper>
     </>
   );
