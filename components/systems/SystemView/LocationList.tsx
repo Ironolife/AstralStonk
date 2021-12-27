@@ -1,14 +1,13 @@
 import { SystemLocationsResponse } from '@astralstonk/api/systems/types';
-import { SystemViewContext } from '@astralstonk/components/systems/SystemView/SystemView';
+import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
 import ButtonBase from '@mui/material/ButtonBase';
 import clsx from 'clsx';
-import { useContext, VFC } from 'react';
+import { VFC } from 'react';
 
 type LocationListProps = SystemLocationsResponse;
 
 const LocationList: VFC<LocationListProps> = ({ locations }) => {
-  const { selectedLocation, setSelectedLocation } =
-    useContext(SystemViewContext);
+  const { selectedLocation, setSelectedLocation } = useSystemViewStore();
 
   return (
     <div className='absolute w-64 left-4 top-4 flex flex-col space-y-2'>

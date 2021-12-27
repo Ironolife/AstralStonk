@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-const withTM = require('next-transpile-modules')(['three']);
+const withTM = require('next-transpile-modules')([
+  'three',
+  '@react-three/drei',
+]);
 
 module.exports = withTM({
   redirects: () => [

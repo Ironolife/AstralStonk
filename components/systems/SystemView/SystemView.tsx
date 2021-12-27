@@ -1,25 +1,25 @@
-import React, { createContext, useState, VFC } from 'react';
 import { SystemLocationsResponse } from '@astralstonk/api/systems/types';
-import SystemScene from '@astralstonk/components/systems/SystemView/SystemScene/SystemScene';
 import LocationList from '@astralstonk/components/systems/SystemView/LocationList';
-
-export const SystemViewContext = createContext({
-  selectedLocation: null as string | null,
-  setSelectedLocation: (symbol: string | null) => {},
-});
+import SystemScene from '@astralstonk/components/systems/SystemView/SystemScene/SystemScene';
+import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
+import React, { useEffect, VFC } from 'react';
 
 type SystemViewProps = SystemLocationsResponse;
 
 const SystemView: VFC<SystemViewProps> = ({ locations }) => {
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const setSelectedLocation = useSystemViewStore(
+    ({ setSelectedLocation }) => setSelectedLocation
+  );
+
+  useEffect(() => {
+    return () => setSelectedLocation(null);
+  }, []);
 
   return (
-    <SystemViewContext.Provider
-      value={{ selectedLocation, setSelectedLocation }}
-    >
+    <>
       <SystemScene locations={locations} />
       <LocationList locations={locations} />
-    </SystemViewContext.Provider>
+    </>
   );
 };
 

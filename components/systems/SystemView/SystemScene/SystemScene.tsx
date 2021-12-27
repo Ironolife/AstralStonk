@@ -1,12 +1,12 @@
 import { SystemLocationsResponse } from '@astralstonk/api/systems/types';
 import CameraController from '@astralstonk/components/systems/SystemView/SystemScene/CameraController';
 import LocationObj from '@astralstonk/components/systems/SystemView/SystemScene/LocationObj';
-import { SystemViewContext } from '@astralstonk/components/systems/SystemView/SystemView';
+import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
 import { hashStringToInt } from '@astralstonk/utils/hashStringToInt';
 import { seededRandomFloatSpread } from '@astralstonk/utils/seededRandom';
 import { Canvas } from '@react-three/fiber';
 import clsx from 'clsx';
-import React, { useContext, useMemo, useRef, useState, VFC } from 'react';
+import React, { useMemo, useRef, useState, VFC } from 'react';
 import { Mesh } from 'three';
 
 type SystemSceneProps = SystemLocationsResponse;
@@ -21,6 +21,8 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
     [locations]
   );
 
+  const locationObjsRef = useRef<{ [key: string]: Mesh }>({});
+
   const starData = useMemo(
     () =>
       new Array(600).fill(null).map((_, index) => ({
@@ -33,9 +35,9 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
 
   const [isCanvasReady, setIsCanvasReady] = useState(false);
 
-  const locationObjsRef = useRef<{ [key: string]: Mesh }>({});
-
-  const { selectedLocation } = useContext(SystemViewContext);
+  const selectedLocation = useSystemViewStore(
+    ({ selectedLocation }) => selectedLocation
+  );
 
   return (
     <div className='absolute inset-0'>
