@@ -7,25 +7,24 @@ import { useContext, VFC } from 'react';
 type LocationListProps = SystemLocationsResponse;
 
 const LocationList: VFC<LocationListProps> = ({ locations }) => {
-  const { selectedLocationIndex, setSelectedLocationIndex } =
+  const { selectedLocation, setSelectedLocation } =
     useContext(SystemViewContext);
 
   return (
     <div className='absolute w-64 left-4 top-4 flex flex-col space-y-2'>
-      {locations.map(({ symbol, name }, index) => (
+      {locations.map(({ symbol, name }) => (
         <ButtonBase
           key={symbol}
           className={clsx(
             'px-4 py-3 justify-between rounded backdrop-blur-lg transition-colors',
-            index === selectedLocationIndex
+            symbol === selectedLocation
               ? 'bg-purple-500/60'
               : 'bg-neutral-700/80 hover:bg-neutral-500/80'
           )}
-          onClick={() =>
-            setSelectedLocationIndex(
-              selectedLocationIndex !== index ? index : null
-            )
-          }
+          onClick={() => {
+            if (selectedLocation !== symbol) setSelectedLocation(symbol);
+            else setSelectedLocation(null);
+          }}
           focusRipple
         >
           <span className='font-medium'>{name}</span>

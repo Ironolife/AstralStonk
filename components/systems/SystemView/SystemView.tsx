@@ -4,20 +4,18 @@ import SystemScene from '@astralstonk/components/systems/SystemView/SystemScene/
 import LocationList from '@astralstonk/components/systems/SystemView/LocationList';
 
 export const SystemViewContext = createContext({
-  selectedLocationIndex: null as number | null,
-  setSelectedLocationIndex: (index: number | null) => {},
+  selectedLocation: null as string | null,
+  setSelectedLocation: (symbol: string | null) => {},
 });
 
 type SystemViewProps = SystemLocationsResponse;
 
 const SystemView: VFC<SystemViewProps> = ({ locations }) => {
-  const [selectedLocationIndex, setSelectedLocationIndex] = useState<
-    number | null
-  >(null);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   return (
     <SystemViewContext.Provider
-      value={{ selectedLocationIndex, setSelectedLocationIndex }}
+      value={{ selectedLocation, setSelectedLocation }}
     >
       <SystemScene locations={locations} />
       <LocationList locations={locations} />

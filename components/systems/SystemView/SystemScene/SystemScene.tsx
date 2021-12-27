@@ -33,9 +33,9 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
 
   const [isCanvasReady, setIsCanvasReady] = useState(false);
 
-  const locationObjsRef = useRef<Mesh[]>([]);
+  const locationObjsRef = useRef<{ [key: string]: Mesh }>({});
 
-  const { selectedLocationIndex } = useContext(SystemViewContext);
+  const { selectedLocation } = useContext(SystemViewContext);
 
   return (
     <div className='absolute inset-0'>
@@ -49,16 +49,16 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
       >
         <CameraController
           target={
-            selectedLocationIndex !== null
-              ? locationObjsRef.current[selectedLocationIndex]
+            selectedLocation !== null
+              ? locationObjsRef.current[selectedLocation]
               : null
           }
         />
         <ambientLight color={0xffffff} />
-        {locationsData.map((locationData, index) => (
+        {locationsData.map((locationData) => (
           <LocationObj
             key={locationData.symbol}
-            ref={(el) => (locationObjsRef.current[index] = el!)}
+            ref={(el) => (locationObjsRef.current[locationData.symbol] = el!)}
             {...locationData}
           />
         ))}
