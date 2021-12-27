@@ -5,7 +5,7 @@ import LocationList from '@astralstonk/components/systems/SystemView/LocationLis
 
 export const SystemViewContext = createContext({
   selectedLocationIndex: null as number | null,
-  setSelectedLocationIndex: (_: number) => {},
+  setSelectedLocationIndex: (index: number | null) => {},
 });
 
 type SystemViewProps = SystemLocationsResponse;

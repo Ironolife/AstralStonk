@@ -28,7 +28,7 @@ const HeaderDrawer: VFC = () => {
         <div className='flex flex-col space-y-2'>
           {routes.map((route) => (
             <HeaderDrawerButton
-              key={route.href}
+              key={route.to.pathname}
               onClick={toggleIsDrawerOpen}
               {...route}
             />
@@ -39,14 +39,14 @@ const HeaderDrawer: VFC = () => {
           <HeaderDrawerButton
             label='Settings'
             icon={<AnimatedSettingsIcon />}
-            href='/settings'
+            to={{ pathname: '/settings' }}
             onClick={toggleIsDrawerOpen}
           />
           {authAction === 'login' && (
             <HeaderDrawerButton
               label='Login'
               icon={<LoginIcon />}
-              href='/auth/login'
+              to={{ pathname: '/auth/login' }}
               onClick={toggleIsDrawerOpen}
             />
           )}

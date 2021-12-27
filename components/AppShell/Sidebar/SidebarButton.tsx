@@ -5,18 +5,19 @@ import clsx from 'clsx';
 import { NextLinkComposed } from '@astralstonk/components/common/Link';
 import FadeIn from '@astralstonk/components/common/FadeIn';
 import { SidebarContext } from '@astralstonk/components/AppShell/Sidebar/Sidebar';
+import { LinkProps } from 'next/link';
 
 type SidebarButtonProps = {
   label: string;
   icon: JSX.Element;
-  href?: string;
+  to?: Exclude<LinkProps['href'], string>;
   onClick?: () => void;
 };
 
 const SidebarButton: VFC<SidebarButtonProps> = ({
   label,
   icon,
-  href,
+  to,
   onClick,
 }) => {
   const router = useRouter();
@@ -27,12 +28,12 @@ const SidebarButton: VFC<SidebarButtonProps> = ({
       className={clsx(
         'p-4 flex justify-start items-center transition-all overflow-hidden group',
         isExpanded ? 'rounded-[6px]' : 'rounded-[28px]',
-        href && router.pathname === href
+        to && router.pathname === to.pathname
           ? 'bg-purple-500/60'
           : 'bg-white/10 hover:bg-white/30'
       )}
-      component={href ? NextLinkComposed : 'button'}
-      to={href ? { pathname: href } : undefined}
+      component={to ? NextLinkComposed : 'button'}
+      to={to}
       onClick={onClick}
       focusRipple
       aria-label={label.toLowerCase()}

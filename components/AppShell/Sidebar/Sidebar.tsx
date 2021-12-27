@@ -24,14 +24,14 @@ const Sidebar: VFC = () => {
       >
         <div className='flex flex-col space-y-2'>
           {routes.map((route) => (
-            <SidebarButton key={route.href} {...route} />
+            <SidebarButton key={route.to.pathname} {...route} />
           ))}
         </div>
         <div className='flex flex-col space-y-2'>
           <SidebarButton
             label='Settings'
             icon={<AnimatedSettingsIcon />}
-            href='/settings'
+            to={{ pathname: '/settings' }}
           />
           <SidebarButton
             label={isExpanded ? 'Collapse' : 'Expand'}

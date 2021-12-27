@@ -3,18 +3,19 @@ import { NextLinkComposed } from '@astralstonk/components/common/Link';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import React, { VFC } from 'react';
+import { LinkProps } from 'next/link';
 
 type HeaderDrawerButtonProps = {
   label: string;
   icon: JSX.Element;
-  href?: string;
+  to?: Exclude<LinkProps['href'], string>;
   onClick?: () => void;
 };
 
 const HeaderDrawerButton: VFC<HeaderDrawerButtonProps> = ({
   label,
   icon,
-  href,
+  to,
   onClick,
 }) => {
   const router = useRouter();
@@ -23,12 +24,12 @@ const HeaderDrawerButton: VFC<HeaderDrawerButtonProps> = ({
     <ButtonBase
       className={clsx(
         'p-4 flex justify-start items-center transition-colors rounded-[6px] group',
-        href && router.pathname === href
+        to && router.pathname === to.pathname
           ? 'bg-purple-500/60'
           : 'hover:bg-white/30'
       )}
-      component={href ? NextLinkComposed : 'button'}
-      to={href ? { pathname: href } : undefined}
+      component={to ? NextLinkComposed : 'button'}
+      to={to}
       onClick={onClick}
       focusRipple
     >

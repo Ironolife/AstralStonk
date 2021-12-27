@@ -7,21 +7,32 @@ export const routes = [
   {
     label: 'Ships',
     icon: <AnimatedRocketIcon />,
-    href: '/ships',
+    to: {
+      pathname: '/ships',
+    },
   },
   {
     label: 'Systems',
     icon: <AnimatedPublicIcon />,
-    href: '/systems/OE',
+    to: {
+      pathname: '/systems/[systemSymbol]',
+      query: {
+        systemSymbol: 'OE',
+      },
+    },
   },
   {
     label: 'Loans',
     icon: <AnimatedLocalAtmIcon />,
-    href: '/loans',
+    to: {
+      pathname: '/loans',
+    },
   },
   {
     label: 'Leaderboard',
     icon: <AnimatedLeaderboardIcon />,
-    href: '/leaderboard',
+    to: {
+      pathname: '/leaderboard',
+    },
   },
 ];

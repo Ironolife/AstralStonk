@@ -9,6 +9,7 @@ import { useQuery } from 'react-query';
 
 const System: VFC = () => {
   const router = useRouter();
+
   const { data, status } = useQuery(
     ['systemLocations', router.query.systemSymbol as string] as const,
     ({ queryKey: [, systemSymbol] }) => getSystemLocations(systemSymbol)
@@ -17,7 +18,7 @@ const System: VFC = () => {
   return (
     <>
       <Head>
-        <title>Systems</title>
+        <title>Systems / {router.query.systemSymbol}</title>
       </Head>
       <QueryWrapper data={data} status={status}>
         {(data) => <SystemView {...data} />}

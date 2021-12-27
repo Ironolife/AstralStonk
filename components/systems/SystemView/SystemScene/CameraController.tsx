@@ -1,60 +1,80 @@
-import { useFrame, useThree } from '@react-three/fiber';
-import { MutableRefObject, useEffect, useRef, VFC } from 'react';
+import { easeInOutCubic } from '@astralstonk/utils/easing';
+import { animated, useSpring } from '@react-spring/three';
+import { useThree } from '@react-three/fiber';
+import { useEffect, useRef, useState, VFC } from 'react';
 import * as THREE from 'three';
 import { Mesh } from 'three';
 
 type CameraControllerProps = {
-  selectedLocationObjRef: MutableRefObject<Mesh | null>;
+  target: Mesh | null;
 };
 
-const CameraController: VFC<CameraControllerProps> = ({
-  selectedLocationObjRef,
-}) => {
-  const get = useThree((state) => state.get);
-  const finalRotation = useRef(new THREE.Euler());
+const INITIAL_POSITION = new THREE.Vector3(0, 0, 150);
+const INITIAL_ROTATION = new THREE.Euler();
+
+const CameraController: VFC<CameraControllerProps> = ({ target }) => {
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
+  const set = useThree(({ set }) => set);
+  const size = useThree(({ size }) => size);
 
   useEffect(() => {
-    if (selectedLocationObjRef.current) {
-      const dummyCamera = get().camera.clone();
-      dummyCamera.lookAt(selectedLocationObjRef.current.position);
-      finalRotation.current = dummyCamera.rotation;
-    }
-  }, [selectedLocationObjRef.current]);
+    if (cameraRef.current) set({ camera: cameraRef.current });
+  }, [cameraRef.current]);
 
-  useFrame(({ camera }) => {
-    if (selectedLocationObjRef.current) {
-      const target = selectedLocationObjRef.current;
+  const [finalPosition, setFinalPosition] = useState(INITIAL_POSITION);
+  const [finalRotation, setFinalRotation] = useState(INITIAL_ROTATION);
 
-      const distance = target.position.distanceTo(camera.position);
+  useEffect(() => {
+    if (!cameraRef.current) return;
+
+    if (target) {
+      const dummyCamera = cameraRef.current.clone();
+
+      // Calculate final position
+      const distance = target.position.distanceTo(dummyCamera.position);
 
       const direction = new THREE.Vector3(
-        target.position.x - camera.position.x,
-        target.position.y - camera.position.y,
-        target.position.z - camera.position.z
+        target.position.x - dummyCamera.position.x,
+        target.position.y - dummyCamera.position.y,
+        target.position.z - dummyCamera.position.z
       ).normalize();
 
-      // Zoom in
-      if (distance > 2.5) {
-        camera.position.x += direction.x * distance * 0.01;
-        camera.position.y += direction.y * distance * 0.01;
-        camera.position.z += direction.z * distance * 0.01;
-      }
-
-      // Zoom out
-      if (distance < 2) {
-        camera.position.x -= direction.x * distance * 0.01;
-        camera.position.y -= direction.y * distance * 0.01;
-        camera.position.z -= direction.z * distance * 0.01;
-      }
-
-      camera.quaternion.rotateTowards(
-        new THREE.Quaternion().setFromEuler(finalRotation.current),
-        0.01
+      const position = new THREE.Vector3(
+        dummyCamera.position.x + direction.x * (distance - 2.5),
+        dummyCamera.position.y + direction.y * (distance - 2.5),
+        dummyCamera.position.z + direction.z * (distance - 2.5)
       );
+
+      // Calculate final rotation
+      dummyCamera.lookAt(target.position);
+
+      const rotation = dummyCamera.rotation.clone();
+
+      setFinalPosition(position);
+      setFinalRotation(rotation);
+    } else {
+      setFinalPosition(INITIAL_POSITION);
+      setFinalRotation(INITIAL_ROTATION);
     }
+  }, [target]);
+
+  const springProps = useSpring({
+    position: [finalPosition.x, finalPosition.y, finalPosition.z],
+    rotation: [finalRotation.x, finalRotation.y, finalRotation.z],
+    config: {
+      easing: easeInOutCubic,
+      duration: 3000,
+    },
   });
 
-  return null;
+  return (
+    <animated.perspectiveCamera
+      ref={cameraRef}
+      aspect={size.width / size.height}
+      {...(springProps as any)}
+      onUpdate={(self) => self.updateProjectionMatrix()}
+    />
+  );
 };
 
 export default CameraController;
