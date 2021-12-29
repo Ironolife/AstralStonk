@@ -1,4 +1,7 @@
-import { SystemLocationsResponse } from '@astralstonk/api/systems/types';
+import {
+  SystemLocationsResponse,
+  SystemResponse,
+} from '@astralstonk/api/systems/types';
 import CameraController from '@astralstonk/components/systems/SystemView/SystemScene/CameraController';
 import LocationObj from '@astralstonk/components/systems/SystemView/SystemScene/LocationObj';
 import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
@@ -9,14 +12,14 @@ import clsx from 'clsx';
 import React, { useMemo, useRef, useState, VFC } from 'react';
 import { Mesh } from 'three';
 
-type SystemSceneProps = SystemLocationsResponse;
+type SystemSceneProps = SystemResponse & SystemLocationsResponse;
 
-const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
+const SystemScene: VFC<SystemSceneProps> = ({ system, locations }) => {
   const locationsData = useMemo(
     () =>
       locations.map((location) => ({
         ...location,
-        z: seededRandomFloatSpread(20, hashStringToInt(`${location.symbol}_Z`)),
+        z: seededRandomFloatSpread(30, hashStringToInt(`${location.symbol}_z`)),
       })),
     [locations]
   );
@@ -26,9 +29,18 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
   const starData = useMemo(
     () =>
       new Array(600).fill(null).map((_, index) => ({
-        x: seededRandomFloatSpread(400, hashStringToInt(`OE_STAR_${index}_X`)),
-        y: seededRandomFloatSpread(400, hashStringToInt(`OE_STAR_${index}_Y`)),
-        z: seededRandomFloatSpread(400, hashStringToInt(`OE_STAR_${index}_Z`)),
+        x: seededRandomFloatSpread(
+          400,
+          hashStringToInt(`${system.symbol}_STAR_${index}_x`)
+        ),
+        y: seededRandomFloatSpread(
+          400,
+          hashStringToInt(`${system.symbol}_STAR_${index}_y`)
+        ),
+        z: seededRandomFloatSpread(
+          400,
+          hashStringToInt(`${system.symbol}_STAR_${index}_z`)
+        ),
       })),
     []
   );
@@ -51,11 +63,10 @@ const SystemScene: VFC<SystemSceneProps> = ({ locations }) => {
       >
         <CameraController
           target={
-            selectedLocation !== null
-              ? locationObjsRef.current[selectedLocation]
-              : null
+            selectedLocation ? locationObjsRef.current[selectedLocation] : null
           }
         />
+        <pointLight color={0xffffff} intensity={1} position={[0, 0, 0]} />
         <ambientLight color={0xffffff} />
         {locationsData.map((locationData) => (
           <LocationObj

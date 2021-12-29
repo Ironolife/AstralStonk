@@ -1,4 +1,7 @@
-import { getSystemLocations } from '@astralstonk/api/systems/systems';
+import {
+  getSystem,
+  getSystemLocations,
+} from '@astralstonk/api/systems/systems';
 import QueryWrapper from '@astralstonk/components/common/QueryWrapper';
 import SystemView from '@astralstonk/components/systems/SystemView/SystemView';
 import WithAuth from '@astralstonk/utils/withAuth';
@@ -11,8 +14,14 @@ const System: VFC = () => {
   const router = useRouter();
 
   const { data, status } = useQuery(
-    ['systemLocations', router.query.systemSymbol as string] as const,
-    ({ queryKey: [, systemSymbol] }) => getSystemLocations(systemSymbol)
+    ['systemView', router.query.systemSymbol as string] as const,
+    async ({ queryKey: [, systemSymbol] }) => {
+      const p1 = getSystem(systemSymbol);
+      const p2 = getSystemLocations(systemSymbol);
+
+      const [{ system }, { locations }] = await Promise.all([p1, p2]);
+      return { system, locations };
+    }
   );
 
   return (

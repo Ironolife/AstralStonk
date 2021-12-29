@@ -1,15 +1,13 @@
 import { SystemLocation } from '@astralstonk/@types/location';
+import PlanetGeometry from '@astralstonk/components/systems/SystemView/SystemScene/PlanetGeometry';
 import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
 import { hashStringToInt } from '@astralstonk/utils/hashStringToInt';
-import {
-  seededRandom,
-  seededRandomFloatSpread,
-} from '@astralstonk/utils/seededRandom';
+import { seededRandomFloatSpread } from '@astralstonk/utils/seededRandom';
 import { Html } from '@react-three/drei/web/Html';
 import { useFrame } from '@react-three/fiber';
 import clsx from 'clsx';
 import startCase from 'lodash/startCase';
-import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useMemo, useRef } from 'react';
 import { Mesh } from 'three';
 
 type LocationObjProps = SystemLocation & {
@@ -20,24 +18,13 @@ const LocationObj = forwardRef<Mesh, LocationObjProps>(
   ({ symbol, type, name, x, y, z }, ref) => {
     const locationObjRef = useRef<Mesh | null>(null);
 
-    const radius = useMemo(() => {
-      const baseMultiplier = 0.5;
-
-      const typeBaseValue =
-        { PLANET: 1.0, MOON: 0.5, WORMHOLE: 1.2 }[type] ?? 1.0;
-
-      return (
-        baseMultiplier *
-        (typeBaseValue +
-          seededRandomFloatSpread(0.5, hashStringToInt(`${symbol}_radius`)))
-      );
-    }, []);
+    const radius = useMemo(() => 0.5, []);
 
     const rotation = useMemo(
       () => ({
-        x: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_X`)),
-        y: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_Y`)),
-        z: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_Z`)),
+        x: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_x`)),
+        y: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_y`)),
+        z: seededRandomFloatSpread(2, hashStringToInt(`${symbol}_rotation_z`)),
       }),
       []
     );
@@ -56,15 +43,6 @@ const LocationObj = forwardRef<Mesh, LocationObjProps>(
       ({ selectedLocation }) => selectedLocation
     );
 
-    const [showLabels, setShowLabels] = useState(false);
-
-    useEffect(() => {
-      if (selectedLocation === symbol) {
-        const timeout = setTimeout(() => setShowLabels(true), 3000);
-        return () => clearTimeout(timeout);
-      } else setShowLabels(false);
-    }, [selectedLocation]);
-
     return (
       <mesh
         ref={(el) => {
@@ -75,38 +53,49 @@ const LocationObj = forwardRef<Mesh, LocationObjProps>(
         }}
         position={[x, y, z]}
       >
-        {type !== 'WORMHOLE' ? (
-          <sphereGeometry args={[radius]} />
-        ) : (
+        {type === 'PLANET' && <PlanetGeometry args={[radius, 8]} />}
+        {type === 'MOON' && <icosahedronGeometry args={[radius, 8]} />}
+        {type === 'WORMHOLE' && (
           <torusGeometry args={[radius, radius / 5, 12, 24]} />
         )}
-        <meshStandardMaterial color={0x3b82ff} wireframe />
-        <Html center>
-          <div
-            className={clsx(
-              '-translate-y-[28vh] whitespace-nowrap text-center space-y-2 transition-opacity duration-300 ease-out',
-              showLabels ? 'opacity-100' : 'opacity-0'
-            )}
-          >
-            <div className='text-3xl font-medium'>{name}</div>
-            <div className='text-2xl font-mono opacity-70'>{symbol}</div>
-          </div>
-        </Html>
-        <Html center>
-          <div
-            className={clsx(
-              'translate-y-[28vh] whitespace-nowrap text-center space-y-2 transition-opacity duration-300 ease-out',
-              showLabels ? 'opacity-100' : 'opacity-0'
-            )}
-          >
-            <div className='text-3xl font-medium'>
-              {startCase(type.toLowerCase())}
+        <meshStandardMaterial
+          color='grey'
+          roughness={0.8}
+          metalness={0.5}
+          wireframe
+        />
+        <group>
+          <Html center>
+            <div
+              className={clsx(
+                '-translate-y-[28vh] whitespace-nowrap text-center space-y-2 transition-opacity duration-300',
+                selectedLocation === symbol
+                  ? 'opacity-100 delay-[3s]'
+                  : 'opacity-0'
+              )}
+            >
+              <div className='text-xl font-medium'>{name}</div>
+              <div className='text-lg font-mono opacity-70'>{symbol}</div>
             </div>
-            <div className='text-2xl font-mono opacity-70'>
-              X{x} , Y{y}
+          </Html>
+          <Html center>
+            <div
+              className={clsx(
+                'translate-y-[28vh] whitespace-nowrap text-center space-y-2 transition-opacity duration-300',
+                selectedLocation === symbol
+                  ? 'opacity-100 delay-[3s]'
+                  : 'opacity-0'
+              )}
+            >
+              <div className='text-xl font-medium'>
+                {startCase(type.toLowerCase())}
+              </div>
+              <div className='text-lg font-mono opacity-70'>
+                X{x} , Y{y}
+              </div>
             </div>
-          </div>
-        </Html>
+          </Html>
+        </group>
       </mesh>
     );
   }

@@ -10,7 +10,7 @@ const LocationList: VFC<LocationListProps> = ({ locations }) => {
   const { selectedLocation, setSelectedLocation } = useSystemViewStore();
 
   return (
-    <div className='absolute w-64 left-4 top-4 flex flex-col space-y-2'>
+    <div className='absolute w-64 left-4 top-4 hidden md:flex flex-col space-y-2'>
       {locations.map(({ symbol, name }) => (
         <ButtonBase
           key={symbol}
