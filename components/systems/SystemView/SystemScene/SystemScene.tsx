@@ -4,6 +4,7 @@ import {
 } from '@astralstonk/api/systems/types';
 import CameraController from '@astralstonk/components/systems/SystemView/SystemScene/CameraController';
 import LocationObj from '@astralstonk/components/systems/SystemView/SystemScene/LocationObj';
+import StarObj from '@astralstonk/components/systems/SystemView/SystemScene/StarObj';
 import { useSystemViewStore } from '@astralstonk/stores/systemView.store';
 import { hashStringToInt } from '@astralstonk/utils/hashStringToInt';
 import { seededRandomFloatSpread } from '@astralstonk/utils/seededRandom';
@@ -15,32 +16,12 @@ import { Mesh } from 'three';
 type SystemSceneProps = SystemResponse & SystemLocationsResponse;
 
 const SystemScene: VFC<SystemSceneProps> = ({ system, locations }) => {
-  const locationsData = useMemo(
-    () =>
-      locations.map((location) => ({
-        ...location,
-        z: seededRandomFloatSpread(30, hashStringToInt(`${location.symbol}_z`)),
-      })),
-    [locations]
-  );
-
   const locationObjsRef = useRef<{ [key: string]: Mesh }>({});
 
-  const starData = useMemo(
+  const stars = useMemo(
     () =>
       new Array(600).fill(null).map((_, index) => ({
-        x: seededRandomFloatSpread(
-          400,
-          hashStringToInt(`${system.symbol}_STAR_${index}_x`)
-        ),
-        y: seededRandomFloatSpread(
-          400,
-          hashStringToInt(`${system.symbol}_STAR_${index}_y`)
-        ),
-        z: seededRandomFloatSpread(
-          400,
-          hashStringToInt(`${system.symbol}_STAR_${index}_z`)
-        ),
+        symbol: `${system.symbol}_STAR_${index}`,
       })),
     []
   );
@@ -68,18 +49,15 @@ const SystemScene: VFC<SystemSceneProps> = ({ system, locations }) => {
         />
         <pointLight color={0xffffff} intensity={1} position={[0, 0, 0]} />
         <ambientLight color={0xffffff} />
-        {locationsData.map((locationData) => (
+        {locations.map((location) => (
           <LocationObj
-            key={locationData.symbol}
-            ref={(el) => (locationObjsRef.current[locationData.symbol] = el!)}
-            {...locationData}
+            key={location.symbol}
+            ref={(el) => (locationObjsRef.current[location.symbol] = el!)}
+            {...location}
           />
         ))}
-        {starData.map(({ x, y, z }, index) => (
-          <mesh key={index} position={[x, y, z]}>
-            <sphereGeometry args={[0.1, 8, 8]} />
-            <meshStandardMaterial color={0xffffff} />
-          </mesh>
+        {stars.map((star) => (
+          <StarObj key={star.symbol} {...star} />
         ))}
       </Canvas>
     </div>

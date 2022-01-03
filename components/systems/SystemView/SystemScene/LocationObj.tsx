@@ -10,15 +10,18 @@ import startCase from 'lodash/startCase';
 import React, { forwardRef, useMemo, useRef } from 'react';
 import { Mesh } from 'three';
 
-type LocationObjProps = SystemLocation & {
-  z: number;
-};
+type LocationObjProps = SystemLocation;
 
 const LocationObj = forwardRef<Mesh, LocationObjProps>(
-  ({ symbol, type, name, x, y, z }, ref) => {
+  ({ symbol, type, name, x, y }, ref) => {
     const locationObjRef = useRef<Mesh | null>(null);
 
     const radius = useMemo(() => 0.5, []);
+
+    const z = useMemo(
+      () => seededRandomFloatSpread(30, hashStringToInt(`${symbol}_z`)),
+      []
+    );
 
     const rotation = useMemo(
       () => ({
